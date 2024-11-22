@@ -34,14 +34,18 @@
         </div>
 
         <!-- results -->
-        <div class="person-table">
+        <div class="table-container">
             <table class="table person-table border">
                 <thead>
                     <tr>
                         <th scope="col"> ID </th>
                         <th scope="col"> Name </th>
-                        <th scope="col"> Weight [kgs] </th>
-                        <th scope="col"> Appetite </th>
+                        <th scope="col"> Gender </th>
+                        <th scope="col"> Date&nbsp;of&nbsp;Birth </th>
+                        <th scope="col"> Height&nbsp;[ft] </th>
+                        <th scope="col"> Is&nbsp;Frank </th>
+                        <th scope="col"> Mobile&nbsp;Brand </th>
+                        <th scope="col"> Description </th>
                     </tr>
                 </thead>
 
@@ -49,8 +53,23 @@
                     <tr class="d-none">
                         <th scope="row"> 1 </th>
                         <td> David </td>
-                        <td> 58.8 </td>
-                        <td> Hungy/ Not-hungry </td>
+                        <td> Male </td>
+                        <td> 2000-02-06 </td>
+                        <td> 6.1 </td>
+                        <td> True </td>
+                        <td> Apple </td>
+                        <td> Tall and helpful </td>
+                        <td>
+                            <div class="d-flex flex-row gap-2 operations">
+                                <a href="">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+
+                                <a href="" class="text-danger">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </div>
+                        </td>
                     </tr>
 
                     <tr>
@@ -115,7 +134,7 @@
                 }
             }
 
-            xhr.onerror = function () {
+            xhr.onerror = function() {
                 console.log("An error occurred!");
             }
 

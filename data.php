@@ -24,6 +24,25 @@
         #success-message-div {
             display: none;
         }
+
+        /* form */
+        .form-section {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: centers;
+        }
+
+        .title {
+            width: 160px;
+            padding-top: 0.4rem;
+            margin-bottom: 0;
+        }
+
+        .data {
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -32,37 +51,91 @@
     <?php require 'sections/header.php'; ?>
 
     <main class="main container">
-        <h3 class="mb-4 fw-bold text-secondary"> <?= $task == "add" ? "ADD DATA" : "EDIT DATA" ?> </h3>
+        <div class="d-flex flex-row flex-wrap gap-2 mb-4 justify-content-between">
+            <h3 class="fw-bold text-secondary"> <?= $task == "add" ? "ADD DATA" : "EDIT DATA" ?> </h3>
+            <a type="button" class="btn btn-outline-danger fit-content" id="form-reset-btn"> RESET </a>
+        </div>
 
-        <!-- error message div -->
+        <!-- error message -->
         <div class="alert alert-danger" role="alert" id="error-message-div">
             An error message appears here...
         </div>
 
+        <!-- success message -->
         <div class="alert alert-success" role="alert" id="success-message-div">
             Success message appears here...
         </div>
 
-        <form method="POST" class="d-flex flex-column" id="data-from">
-            <label for="name" class="form-label text-secondary px-1"> Name </label>
-            <input type="text" name="name" id="name" class="form-control mb-3" placeholder="name" required>
+        <!-- form -->
+        <form method="POST" class="w-100 d-flex flex-column gap-3" id="data-from">
+            <!-- name -->
+            <div class="form-section d-flex flex-column flex-md-row">
+                <label for="name" class="title"> Name </label>
+                <input type="text" name="name" id="name" class="form-control data" placeholder="full name" required>
+            </div>
 
-            <label for="weight" class="form-label text-secondary px-1"> Weight </label>
-            <input type="number" step="0.01" name="weight" id="weight" class="form-control mb-3" placeholder="weight" required>
+            <!-- gender -->
+            <div class="form-section d-flex flex-column flex-md-row">
+                <label for="gender" class="form-label title"> Gender </label>
 
-            <p class="mb-2 text-secondary px-1"> Appetite </p>
-            <div class="d-flex flex-row gap-3 mb-2 px-1">
-                <div class="">
-                    <input type="radio" name="appetite" value="1" id="appetite-hungry" required>
-                    <label for="appetite-hungry" class="form-label text-secondary pointer"> Hungry </label>
-                </div>
+                <div class="d-flex flex-row gap-3 data">
+                    <div class="d-flex flex-row gap-2 border rounded p-2">
+                        <input type="radio" name="gender" id="gender-male" value="male" class="form-check-input" required>
+                        <label for="gender-male" class="form-check-label"> Male </label>
+                    </div>
 
-                <div class="">
-                    <input type="radio" name="appetite" value="0" id="appetite-not-hungry">
-                    <label for="appetite-not-hungry" class="form-label text-secondary pointer"> Not-Hungry </label>
+                    <div class="d-flex flex-row gap-2 border rounded p-2">
+                        <input type="radio" name="gender" id="gender-female" value="female" class="form-check-input" required>
+                        <label for="gender-female" class="form-check-label"> Female </label>
+                    </div>
                 </div>
             </div>
 
+            <!-- date of birth -->
+            <div class="form-section d-flex flex-column flex-md-row">
+                <label for="date-of-birth" class="form-label title"> Date of Birth </label>
+                <input type="date" name="date-of-birth" id="date-of-birth" class="form-control fit-height data" required>
+            </div>
+
+            <!-- height -->
+            <div class="form-section d-flex flex-column flex-md-row">
+                <label for="height" class="form-label title"> Height </label>
+                <input type="number" step="0.01" name="height" id="height" class="form-control data" placeholder="height in ft" required>
+            </div>
+
+            <!-- is frank -->
+            <div class="form-section d-flex flex-column flex-md-row">
+                <label for="frank" class="form-label title"> Is Frank </label>
+
+                <select name="is-frank" id="is-frank" class="form-select data" required>
+                    <option value="" selected hidden> [Yes || No] </option>
+                    <option value="1"> Yes </option>
+                    <option value="0"> No </option>
+                </select>
+            </div>
+
+            <!-- mobile brand -->
+            <div class="form-section d-flex flex-column flex-md-row">
+                <label for="mobile-brand" class="form-label title"> Mobile Brand </label>
+
+                <select name="mobile-brand" class="form-select data" id="mobile-brand" required>
+                    <option value="" selected hidden> Mobile Brand </option>
+                    <option value="apple"> Apple </option>
+                    <option value="samsung"> Samsung </option>
+                    <option value="oppo"> Oppo </option>
+                    <option value="vivo"> Vivo </option>
+                    <option value="redmi"> Redmi </option>
+                    <option value="noia"> Nokia </option>
+                </select>
+            </div>
+
+            <!-- description -->
+            <div class="form-section d-flex flex-column flex-md-row">
+                <label for="description" class="form-label title"> Description </label>
+                <textarea name="description" id="description" class="form-control data" placeholder="description" required></textarea>
+            </div>
+
+            <!-- operation -->
             <div class="d-flex flex-row gap-2">
                 <?php
                 if ($task == "edit") {
@@ -75,7 +148,6 @@
                 <?php
                 }
                 ?>
-                <a type="button" class="btn btn-outline-danger fit-width" id="form-reset-btn"> RESET </a>
             </div>
         </form>
     </main>
@@ -85,6 +157,7 @@
 
     <script>
         const errorDiv = document.getElementById('error-message-div');
+
         const successDiv = document.getElementById('success-message-div');
 
         const dataForm = document.getElementById('data-from');
@@ -108,29 +181,55 @@
 
             const xhr = new XMLHttpRequest();
 
+            // getting values
+            // name
             var name = document.getElementById('name').value;
-            var weight = document.getElementById('weight').value;
 
-            const radios = document.querySelectorAll('input[name="appetite"]');
+            // gender
+            const genderRadio = document.querySelectorAll('input[name="gender"]');
 
-            var appetite = null;
+            var gender = null;
 
-            radios.forEach(radio => {
+            genderRadio.forEach(radio => {
                 if (radio.checked) {
-                    appetite = radio.value;
+                    gender = radio.value;
                 }
             });
+
+            // date of birth
+            var dateOfBirth = document.getElementById('date-of-birth').value;
+
+            // height
+            var height = document.getElementById('height').value;
+
+            // is frank
+            var isFrank = document.getElementById('is-frank').value;
+
+            // mobile brand
+            var mobileBrand = document.getElementById('mobile-brand').value;
+
+            // description
+            var description = document.getElementById('description').value;
+
+            // printing values
+            // console.log("Name : " + name);
+            // console.log("Gender : " + gender);
+            // console.log("Date of birth : " + dateOfBirth);
+            // console.log("Height : " + height);
+            // console.log("Is frank : " + isFrank);
+            // console.log("Mobile brand : " + mobileBrand);
+            // console.log("Description : " + description);
 
             if (task == "add") {
                 const addBtn = document.getElementById('add-data-btn');
 
-                const params = `name=${encodeURIComponent(name)}&weight=${weight}&appetite=${appetite}`;
+                const params = `name=${encodeURIComponent(name)}&gender=${gender}&date-of-birth=${dateOfBirth}&height=${height}&is-frank=${isFrank}&mobile-brand=${mobileBrand}&description=${encodeURIComponent(description)}`;
 
                 xhr.open("POST", "/php_template/app/add.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-                xhr.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
+                xhr.onload = function() {
+                    if (this.status == 200) {
                         var response = this.response;
 
                         if (response) {
@@ -144,18 +243,28 @@
                             errorDiv.innerText = "Data couldn't be added!";
                         }
                         addBtn.innerText = "ADD NOW";
-                    } else {
-                        addBtn.innerText = "ADDING...";
                     }
                 }
 
+                xhr.onprogress = function() {
+                    addBtn.innerText = "ADDING...";
+                }
+
+                xhr.onerror = function() {
+                    errorDiv.style.display = "flex";
+                    successDiv.style.display = "none";
+                    errorDiv.innerText = "Data couldn't be added!";
+                    addBtn.innerText = "ADD NOW";
+                }
+
                 xhr.send(params);
-            } else {
+            } else if (task == "edit") {
                 const updateBtn = document.getElementById('update-data-btn');
 
-                const params = `id=${personId}&name=${encodeURIComponent(name)}&weight=${weight}&appetite=${appetite}`;
+                const params = `id=${personId}&name=${encodeURIComponent(name)}&gender=${gender}&date-of-birth=${dateOfBirth}&height=${height}&is-frank=${isFrank}&mobile-brand=${mobileBrand}&description=${encodeURIComponent(description)}`;
 
                 xhr.open("POST", "/php_template/app/update.php", true);
+                
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
                 xhr.onreadystatechange = function() {
@@ -167,7 +276,7 @@
                         if (response) {
                             console.log("Data updated successfully!");
                         } else {
-                            console.log("An error occurred!");
+                            console.log("An error occurred! : " + response);
                         }
                         updateBtn.innerText = "UPDATE NOW";
                     } else {
@@ -193,12 +302,21 @@
 
                     if (response['response']) {
                         document.getElementById('name').value = response['name'];
-                        document.getElementById('weight').value = response['weight'];
-                        if (response['appetite'] == "Hungry") {
-                            document.getElementById('appetite-hungry').checked = true;
+
+                        if (response['gender'] == "male") {
+                            document.getElementById('gender-male').checked = true;
                         } else {
-                            document.getElementById('appetite-not-hungry').checked = true;
+                            document.getElementById('gender-female').checked = true;
                         }
+
+                        document.getElementById('date-of-birth').value = response['date_of_birth'];
+                        document.getElementById('height').value = response['height'];
+                        document.getElementById('description').value = response['description'];
+
+                        document.getElementById('is-frank').value = response['is_frank'];
+
+                        document.getElementById('mobile-brand').value = response['mobile_brand'];
+
                     }
                 }
             }

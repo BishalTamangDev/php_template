@@ -19,9 +19,13 @@ if ($id != 0) {
     $data = [
         "response" => $response,
         "id" => $personObj->getId(),
-        "name" => ucwords(strtolower($personObj->getName())),
-        "weight" => $personObj->getWeight(),
-        "appetite" => $personObj->getAppetite() ? "Hungry" : "Not-hungry",
+        "name" => $personObj->getName(),
+        "gender" => $personObj->getGender(),
+        "date_of_birth" => $personObj->getDateOfBirth(),
+        "height" => $personObj->getHeight(),
+        "is_frank" => $personObj->getIsFrank(),
+        "mobile_brand" => $personObj->getMobileBrand(),
+        "description" => $personObj->getDescription(),
     ];
 }
 

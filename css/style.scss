@@ -42,6 +42,11 @@ img {
     height: fit-content;
 }
 
+.table-container {
+    width: 100%;
+    overflow-x: scroll;
+}
+
 // person table
 .person-table {
     .profile-photo-container {

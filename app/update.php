@@ -9,10 +9,7 @@ if ($id != 0) {
 
     $personObj = new Person();
 
-    $personObj->setName($id);
-    $personObj->setName($_POST['name'] ?? "");
-    $personObj->setWeight($_POST['weight'] ?? "");
-    $personObj->setAppetite($_POST['appetite'] ?? 0);
+    $personObj->set($id, $_POST['name'], $_POST['gender'], $_POST['date-of-birth'], $_POST['height'], $_POST['is-frank'], $_POST['mobile-brand'], $_POST['description']);
 
     if ($personObj->isValid()) {
         $response = $personObj->update($id);

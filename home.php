@@ -28,14 +28,18 @@ if (session_status() == PHP_SESSION_NONE)
 
     <main class="main container">
         <h3 class="mb-4 fw-bold text-secondary"> ALL PERSONS </h3>
-        <div class="person-table">
+        <div class="table-container">
             <table class="table person-table border">
                 <thead>
                     <tr>
                         <th scope="col"> ID </th>
                         <th scope="col"> Name </th>
-                        <th scope="col"> Weight [kgs] </th>
-                        <th scope="col"> Appetite </th>
+                        <th scope="col"> Gender </th>
+                        <th scope="col"> Date&nbsp;of&nbsp;Birth </th>
+                        <th scope="col"> Height&nbsp;[ft] </th>
+                        <th scope="col"> Is&nbsp;Frank </th>
+                        <th scope="col"> Mobile&nbsp;Brand </th>
+                        <th scope="col"> Description </th>
                         <th scope="col"> Operation </th>
                     </tr>
                 </thead>
@@ -44,8 +48,12 @@ if (session_status() == PHP_SESSION_NONE)
                     <tr class="d-none">
                         <th scope="row"> 1 </th>
                         <td> David </td>
-                        <td> 58.8 </td>
-                        <td> Hungry/ Not-hungry </td>
+                        <td> Male </td>
+                        <td> 2000-02-06 </td>
+                        <td> 6.1 </td>
+                        <td> True </td>
+                        <td> Apple </td>
+                        <td> Tall and helpful </td>
                         <td>
                             <div class="d-flex flex-row gap-2 operations">
                                 <a href="">
@@ -127,6 +135,7 @@ if (session_status() == PHP_SESSION_NONE)
 
             xhr.onload = function() {
                 if (this.status == 200) {
+                    console.log("Data fetched");
                     const data = this.response;
                     tableBody.innerHTML = data;
 

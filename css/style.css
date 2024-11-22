@@ -39,6 +39,11 @@ img {
   height: fit-content;
 }
 
+.table-container {
+  width: 100%;
+  overflow-x: scroll;
+}
+
 .person-table .profile-photo-container {
   width: 48px;
   aspect-ratio: 1/1;

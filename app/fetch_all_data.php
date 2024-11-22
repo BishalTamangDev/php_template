@@ -21,8 +21,12 @@ if (sizeof($personList) == 0) {
         <tr class="">
             <th scope="row"> <?= $serial++ ?> </th>
             <td> <?= ucwords(strtolower($person['name'])) ?> </td>
-            <td> <?= $person['weight'] ?> </td>
-            <td> <?= $person['appetite'] ? "Hungry" : "Not-hungry" ?> </td>
+            <td> <?= ucfirst($person['gender']) ?> </td>
+            <td> <?= $person['date_of_birth'] ?> </td>
+            <td> <?= $person['height'] ?> </td>
+            <td> <?= $person['is_frank'] ? "Yes" : "No" ?> </td>
+            <td> <?= ucwords($person['mobile_brand']) ?> </td>
+            <td> <?= ucfirst($person['description']) ?> </td>
             <td>
                 <div class="d-flex flex-row align-items-center gap-2 operations">
                     <a href="/php_template/data/view/<?=$person['id']?>">

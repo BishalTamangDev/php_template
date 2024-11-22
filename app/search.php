@@ -26,8 +26,12 @@ if (sizeof($data) == 0) {
         <tr>
             <th scope="row"> <?= $serial++ ?> </th>
             <td> <?= ucwords(strtolower($datum['name'])) ?> </td>
-            <td> <?= $datum['weight'] ?> </td>
-            <td> <?= $datum['appetite'] ? "Hungry" : "Not-hungry" ?> </td>
+            <td> <?= ucfirst($datum['gender']) ?> </td>
+            <td> <?= $datum['date_of_birth'] ?> </td>
+            <td> <?= $datum['height'] ?> </td>
+            <td> <?= $datum['is_frank'] ? "Yes" : "No" ?> </td>
+            <td> <?= ucwords($datum['mobile_brand']) ?> </td>
+            <td> <?= ucfirst($datum['description']) ?> </td>
         </tr>
     <?php
     }

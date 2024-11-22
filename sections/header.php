@@ -1,5 +1,5 @@
 <header class="w-100 bg-dark header position-fixed">
-    <div class="container d-flex flex-row justify-content-between py-3">
+    <div class="container d-flex flex-row flex-wrap row-gap-1 justify-content-between py-3">
         <div class="d-flex flex-row align-items-center gap-2">
             <a href="/php_template/home" class="m-0 text-light nav-link">
                 PHP TEMPLATE

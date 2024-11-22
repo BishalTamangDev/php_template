@@ -4,37 +4,39 @@ class Person extends Database
 {
     private $id;
     private $name;
-    private $weight;
-    private $appetite;
+    private $gender;
+    private $dateOfBirth;
+    private $height;
+    private $isFrank;
+    private $mobileBrand;
+    private $description;
 
     public function __construct()
     {
         $this->id = 0;
         $this->name = "";
-        $this->weight = 0.0;
-        $this->appetite = false;
+        $this->gender = "";
+        $this->dateOfBirth = 0;
+        $this->height = 0.0;
+        $this->isFrank = 0;
+        $this->mobileBrand = "";
+        $this->description = "";
+    }
+
+    // set
+    public function set($id, $name, $gender, $dateOfBirth, $height, $isFrank, $mobileBrand, $description)
+    {
+        $this->id = $id;
+        $this->name = $name;
+        $this->gender = $gender;
+        $this->dateOfBirth = $dateOfBirth;
+        $this->height = $height;
+        $this->isFrank = $isFrank;
+        $this->mobileBrand = $mobileBrand;
+        $this->description = $description;
     }
 
     // setter
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    public function setWeight($weight)
-    {
-        $this->weight = $weight;
-    }
-
-    public function setAppetite($appetite)
-    {
-        $this->appetite = $appetite;
-    }
 
     // getter
     public function getId()
@@ -47,31 +49,51 @@ class Person extends Database
         return $this->name;
     }
 
-    public function getWeight()
+    public function getGender()
     {
-        return $this->weight;
+        return $this->gender;
     }
 
-    public function getAppetite()
+    public function getDateOfBirth()
     {
-        return $this->appetite;
+        return $this->dateOfBirth;
+    }
+
+    public function getHeight()
+    {
+        return $this->height;
+    }
+
+    public function getIsFrank()
+    {
+        return $this->isFrank;
+    }
+
+    public function getMobileBrand()
+    {
+        return $this->mobileBrand;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     // validity check
     public function isValid()
     {
-        return ($this->name == "" || $this->weight == 0) ? false : true;
+        return ($this->name == "" || $this->gender == "" || $this->dateOfBirth == 0 || $this->height == 0.0 || $this->mobileBrand == "" || $this->description == "") ? false : true;
     }
 
     // insert person detail in database
     public function insertPerson()
     {
-        $query = "INSERT INTO person_tb (`name`, `weight`, `appetite`) VALUES (:name, :weight, :appetite);";
+        $query = "INSERT INTO person_tb (`name`, `gender`, `date_of_birth`, `height`, `is_frank`, `mobile_brand`, `description`) VALUES (:name, :gender, :dateOfBirth, :height, :isFrank, :mobileBrand, :description);";
 
         $stmt = $this->connect()->prepare($query);
 
         try {
-            return $stmt->execute([":name" => $this->name, ":weight" => $this->weight, ":appetite" => $this->appetite]);
+            return $stmt->execute([":name" => $this->name, ":gender" => $this->gender, ":dateOfBirth" => $this->dateOfBirth, "height" => $this->height, "isFrank" => $this->isFrank, "mobileBrand" => $this->mobileBrand, "description" => $this->description]);
         } catch (PDOException $e) {
             return false;
         }
@@ -80,12 +102,12 @@ class Person extends Database
     // update detail
     public function update($id)
     {
-        $query = "UPDATE person_tb set `name` = :name, `weight` = :weight, `appetite` = :appetite WHERE `id` = :id";
+        $query = "UPDATE person_tb set `name` = :name, `gender` = :gender, `date_of_birth` = :dateOfBirth, `height` = :height, `is_frank` = :isFrank, `mobile_brand` = :mobileBrand, `description` = :description WHERE `id` = :id";
 
         $stmt = $this->connect()->prepare($query);
 
         try {
-            return $stmt->execute([":id" => $id, ":name" => $this->name, ":weight"=> $this->weight, ":appetite" => $this->appetite]);
+            return $stmt->execute([":id" => $id, ":name" => $this->name, ":gender" => $this->gender, ":dateOfBirth" => $this->dateOfBirth, ":height" => $this->height, ":isFrank" => $this->isFrank, ":mobileBrand" => $this->mobileBrand, ":description" => $this->description]);
         } catch (PDOException $e) {
             return false;
         }
@@ -134,10 +156,7 @@ class Person extends Database
             if ($stmt->rowCount() == 1) {
                 $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                $this->setId($id);
-                $this->setName($data['name']);
-                $this->setWeight($data['weight']);
-                $this->setAppetite($data['appetite']);
+                $this->set($id, $data['name'], $data['gender'], $data['date_of_birth'], $data['height'], $data['is_frank'], $data['mobile_brand'], $data['description']);
 
                 return true;
             }
@@ -155,13 +174,13 @@ class Person extends Database
 
         $query = "SELECT * FROM person_tb WHERE `name` LIKE :searchContent";
         $stmt = $this->connect()->prepare($query);
-        
+
         try {
             $stmt->execute([":searchContent" => $searchContent]);
-            
+
             if ($stmt->rowCount() > 0) {
                 $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-            } 
+            }
         } catch (PDOException $e) {
             echo "5";
         }

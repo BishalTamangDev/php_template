@@ -46,13 +46,33 @@
                         </tr>
 
                         <tr>
-                            <td class="text-secondary"> Weight </td>
-                            <td id="person-weight"> Loading... </td>
+                            <td class="text-secondary"> Gender </td>
+                            <td id="person-gender"> Loading... </td>
                         </tr>
 
                         <tr>
-                            <td class="text-secondary"> Appetite </td>
-                            <td id="person-appetite"> Loading... </td>
+                            <td class="text-secondary"> Date of Birth </td>
+                            <td id="person-date-of-birth"> Loading... </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-secondary"> Height </td>
+                            <td id="person-height"> Loading... </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-secondary"> Is Frank </td>
+                            <td id="person-is-frank"> Loading... </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-secondary"> Mobile Brand </td>
+                            <td id="person-mobile-brand"> Loading... </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-secondary"> Description </td>
+                            <td id="person-description"> Loading... </td>
                         </tr>
                     </tbody>
                 </table>
@@ -69,15 +89,19 @@
 
         xhr.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                const response = JSON.parse(this.responseText);
+                const response = JSON.parse(this.response);
                 console.log(response);
 
-                if(response['response']) {
-                    document.getElementById('person-name').innerText = response['name'];
-                    document.getElementById('person-weight').innerText = response['weight'] + " kgs";
-                    document.getElementById('person-appetite').innerText = response['appetite'];
+                if (response['response']) {
+                    document.getElementById('person-name').innerText = response['name'].charAt(0).toUpperCase() + response['name'].slice(1);
+                    document.getElementById('person-gender').innerText = response['gender'].charAt(0).toUpperCase() + response['gender'].slice(1);
+                    document.getElementById('person-date-of-birth').innerText = response['date_of_birth'];
+                    document.getElementById('person-height').innerText = response['height'] + " ft";
+                    document.getElementById('person-is-frank').innerText = response['is_frank'];
+                    document.getElementById('person-mobile-brand').innerText = response['mobile_brand'].charAt(0).toUpperCase() + response['mobile_brand'].slice(1);
+                    document.getElementById('person-description').innerText = response['description'].charAt(0).toUpperCase() + response['description'].slice(1);
                 } else {
-                    const msg =document.createElement('p');
+                    const msg = document.createElement('p');
 
                     msg.classList.add("text-danger");
                     msg.innerText = "Data not found!";
