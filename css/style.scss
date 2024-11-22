@@ -1,0 +1,92 @@
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    // background-color: whitesmoke;
+}
+
+.nav {
+    ul {
+        li {
+            &:hover {
+                background-color: black;
+            }
+
+            a {
+                padding: 0.3rem 0.5rem;
+            }
+        }
+    }
+}
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.fit-content {
+    height: fit-content;
+    width: fit-content;
+}
+
+.fit-width {
+    width: fit-content;
+}
+
+.fit-height {
+    height: fit-content;
+}
+
+// person table
+.person-table {
+    .profile-photo-container {
+        width: 48px;
+        aspect-ratio: 1/1;
+    }
+}
+
+.alert {
+    display: none;
+    display: flex;
+}
+
+textarea {
+    height: 120px;
+    max-height: 120px;
+}
+
+.main {
+    margin-top: 6rem;
+}
+
+.header {
+    z-index: 100;
+}
+
+
+/* Entire scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+}
+
+::-webkit-scrollbar-track {
+    background: white;
+    width: 100px;
+}
+
+/* Scrollbar thumb */
+::-webkit-scrollbar-thumb {
+    background-color: rgb(196, 195, 195);
+    // border: 0px solid #f1f1f1;
+}
+
+/* Scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background-color: none;
+}
