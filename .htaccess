@@ -1,4 +1,15 @@
+# Enable file downloads for specific extensions
+# <FilesMatch "\.(?i:jpg|jpeg|png|gif|pdf|docx|txt|zip|rar|csv|xls|xlsx)$">
+#     ForceType application/octet-stream
+#     Header set Content-Disposition attachment
+# </FilesMatch>
+
+# Enable URL rewriting
 RewriteEngine On
+
+# Skip existing files and directories
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php [L]
+
+# Route all other requests to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]

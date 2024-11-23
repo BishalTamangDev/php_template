@@ -75,7 +75,7 @@
 
             formData.append('image', fileInput.files[0]);
 
-            xhr.open("POST", "app/add-image.php", true);
+            xhr.open("POST", "app/upload_image.php", true);
 
             xhr.onload = function() {
                 if (this.status == 200) {

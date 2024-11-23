@@ -48,7 +48,7 @@
     <main class="main container mb-5">
         <div class="d-flex flex-row justify-content-between heading mb-4">
             <h3 class="fw-bold text-secondary"> GALLERY </h3>
-            <a href="/php_template/add-image" class="btn btn-primary"><i class="fa fa-add"></i> ADD NEW</a>
+            <a href="/php_template/upload-image" class="btn btn-primary"><i class="fa fa-add"></i> ADD NEW</a>
         </div>
 
         <div class="mt-4 image-container d-flex flex-row flex-wrap gap-4" id="gallery-container">
@@ -71,7 +71,7 @@
         function fetchGallery() {
             const xhr = new XMLHttpRequest();
 
-            xhr.open("GET", "app/fetch-gallery.php", true);
+            xhr.open("GET", "app/fetch_gallery.php", true);
 
             xhr.onload = function() {
                 if (xhr.status == 200) {
@@ -87,7 +87,7 @@
 
                             const xhr = new XMLHttpRequest();
 
-                            xhr.open("POST", "app/delete-image.php", true);
+                            xhr.open("POST", "app/delete_image.php", true);
 
                             let params = `id=${dataId}`;
 

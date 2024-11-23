@@ -53,8 +53,18 @@ switch ($pathArray[1]) {
     case 'gallery':
         require 'gallery.php';
         break;
-    case 'add-image':
-        require 'add-image.php';
+    case 'upload-image':
+        require 'upload_image.php';
+        break;
+    case 'document';
+        $task = $pathArray[2] ?? "view";
+
+        if (!in_array($task, ["view", "add"])) {
+            $redirected = false;
+        } else {
+            $task == "view" ? require 'document.php' : require 'upload_document.php';
+        }
+
         break;
     case 'external-api':
         require 'external_api.php';

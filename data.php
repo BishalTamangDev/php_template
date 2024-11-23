@@ -211,15 +211,6 @@
             // description
             var description = document.getElementById('description').value;
 
-            // printing values
-            // console.log("Name : " + name);
-            // console.log("Gender : " + gender);
-            // console.log("Date of birth : " + dateOfBirth);
-            // console.log("Height : " + height);
-            // console.log("Is frank : " + isFrank);
-            // console.log("Mobile brand : " + mobileBrand);
-            // console.log("Description : " + description);
-
             if (task == "add") {
                 const addBtn = document.getElementById('add-data-btn');
 
