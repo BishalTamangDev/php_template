@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . '/functions/generate_csrf_token.php';
+$csrfToken = generateCsrfToken();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,6 +73,9 @@
 
         <!-- form -->
         <form method="POST" class="w-100 d-flex flex-column gap-3" id="data-from">
+            <!-- csrf token -->
+            <input type="hidden" name="csrf-token" id="csrf-token" class="form-control" value="<?= $csrfToken ?>" required>
+
             <!-- name -->
             <div class="form-section d-flex flex-column flex-md-row">
                 <label for="name" class="title"> Name </label>
@@ -125,7 +133,7 @@
                     <option value="oppo"> Oppo </option>
                     <option value="vivo"> Vivo </option>
                     <option value="redmi"> Redmi </option>
-                    <option value="noia"> Nokia </option>
+                    <option value="nokia"> Nokia </option>
                 </select>
             </div>
 
@@ -182,6 +190,10 @@
             const xhr = new XMLHttpRequest();
 
             // getting values
+
+            // csrf token
+            var token = document.getElementById('csrf-token').value;
+
             // name
             var name = document.getElementById('name').value;
 
@@ -214,16 +226,18 @@
             if (task == "add") {
                 const addBtn = document.getElementById('add-data-btn');
 
-                const params = `name=${encodeURIComponent(name)}&gender=${gender}&date-of-birth=${dateOfBirth}&height=${height}&is-frank=${isFrank}&mobile-brand=${mobileBrand}&description=${encodeURIComponent(description)}`;
+                const params = `token=${encodeURIComponent(token)}&name=${encodeURIComponent(name)}&gender=${gender}&date-of-birth=${dateOfBirth}&height=${height}&is-frank=${isFrank}&mobile-brand=${mobileBrand}&description=${encodeURIComponent(description)}`;
 
                 xhr.open("POST", "/php_template/app/add.php", true);
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
                 xhr.onload = function() {
+                    console.clear();
+
                     if (this.status == 200) {
                         var response = this.response;
 
-                        if (response) {
+                        if (response == 1) {
                             dataForm.reset();
                             errorDiv.style.display = "none";
                             successDiv.style.display = "flex";
@@ -252,27 +266,32 @@
             } else if (task == "edit") {
                 const updateBtn = document.getElementById('update-data-btn');
 
-                const params = `id=${personId}&name=${encodeURIComponent(name)}&gender=${gender}&date-of-birth=${dateOfBirth}&height=${height}&is-frank=${isFrank}&mobile-brand=${mobileBrand}&description=${encodeURIComponent(description)}`;
+                const params = `id=${personId}&token=${encodeURIComponent(token)}&name=${encodeURIComponent(name)}&gender=${gender}&date-of-birth=${dateOfBirth}&height=${height}&is-frank=${isFrank}&mobile-brand=${mobileBrand}&description=${encodeURIComponent(description)}`;
 
                 xhr.open("POST", "/php_template/app/update.php", true);
-                
+
                 xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
-                xhr.onreadystatechange = function() {
+                xhr.onload = function() {
                     if (this.readyState == 4 && this.status == 200) {
-                        var response = this.response;
-
-                        console.log(response);
-
-                        if (response) {
-                            console.log("Data updated successfully!");
+                        if (this.response == true) {
+                            errorDiv.style.display = "none";
+                            successDiv.style.display = "flex";
+                            successDiv.innerText = "Data updated successfully!";
                         } else {
-                            console.log("An error occurred! : " + response);
+                            errorDiv.style.display = "flex";
+                            successDiv.style.display = "none";
+                            successDiv.innerText = this.response;
                         }
                         updateBtn.innerText = "UPDATE NOW";
                     } else {
                         updateBtn.innerText = "UPDATING...";
                     }
+                }
+
+                xhr.onprogress = function() {
+                    errorDiv.style.display = "none";
+                    successDiv.style.display = "none";
                 }
 
                 xhr.send(params);
@@ -289,7 +308,7 @@
             xhr.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     const response = JSON.parse(this.responseText);
-                    console.log(response);
+                    // console.log(response);
 
                     if (response['response']) {
                         document.getElementById('name').value = response['name'];

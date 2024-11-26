@@ -11,6 +11,8 @@ class Person extends Database
     private $mobileBrand;
     private $description;
 
+    private $table = "person_tb";
+
     public function __construct()
     {
         $this->id = 0;
@@ -88,12 +90,13 @@ class Person extends Database
     // insert person detail in database
     public function insertPerson()
     {
-        $query = "INSERT INTO person_tb (`name`, `gender`, `date_of_birth`, `height`, `is_frank`, `mobile_brand`, `description`) VALUES (:name, :gender, :dateOfBirth, :height, :isFrank, :mobileBrand, :description);";
+        $query = "INSERT INTO $this->table (`name`, `gender`, `date_of_birth`, `height`, `is_frank`, `mobile_brand`, `description`) VALUES (:name, :gender, :dateOfBirth, :height, :isFrank, :mobileBrand, :description);";
 
         $stmt = $this->connect()->prepare($query);
 
         try {
-            return $stmt->execute([":name" => $this->name, ":gender" => $this->gender, ":dateOfBirth" => $this->dateOfBirth, "height" => $this->height, "isFrank" => $this->isFrank, "mobileBrand" => $this->mobileBrand, "description" => $this->description]);
+            $stmt->execute([":name" => $this->name, ":gender" => $this->gender, ":dateOfBirth" => $this->dateOfBirth, "height" => $this->height, "isFrank" => $this->isFrank, "mobileBrand" => $this->mobileBrand, "description" => $this->description]);
+            return true;
         } catch (PDOException $e) {
             return false;
         }
@@ -102,7 +105,7 @@ class Person extends Database
     // update detail
     public function update($id)
     {
-        $query = "UPDATE person_tb set `name` = :name, `gender` = :gender, `date_of_birth` = :dateOfBirth, `height` = :height, `is_frank` = :isFrank, `mobile_brand` = :mobileBrand, `description` = :description WHERE `id` = :id";
+        $query = "UPDATE $this->table set `name` = :name, `gender` = :gender, `date_of_birth` = :dateOfBirth, `height` = :height, `is_frank` = :isFrank, `mobile_brand` = :mobileBrand, `description` = :description WHERE `id` = :id";
 
         $stmt = $this->connect()->prepare($query);
 
@@ -116,7 +119,7 @@ class Person extends Database
     // delete person
     public function deletePerson($id)
     {
-        $query = "DELETE FROM person_tb WHERE `id` = :id";
+        $query = "DELETE FROM $this->table WHERE `id` = :id";
 
         $stmt = $this->connect()->prepare($query);
 
@@ -130,7 +133,7 @@ class Person extends Database
     // fetch all person
     public function fetchAll()
     {
-        $query = "SELECT * FROM person_tb";
+        $query = "SELECT * FROM $this->table";
         $stmt = $this->connect()->prepare($query);
 
         try {
@@ -148,7 +151,7 @@ class Person extends Database
     // fetch person by id
     public function fetch($id)
     {
-        $query = "SELECT * FROM person_tb WHERE `id` = :id";
+        $query = "SELECT * FROM $this->table WHERE `id` = :id";
         $stmt = $this->connect()->prepare($query);
 
         try {
@@ -172,7 +175,7 @@ class Person extends Database
         $searchContent = "%$searchContent%";
         $data = [];
 
-        $query = "SELECT * FROM person_tb WHERE `name` LIKE :searchContent";
+        $query = "SELECT * FROM $this->table WHERE `name` LIKE :searchContent";
         $stmt = $this->connect()->prepare($query);
 
         try {

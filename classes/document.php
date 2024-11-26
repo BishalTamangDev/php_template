@@ -6,6 +6,8 @@ class Document extends Database
     private $id;
     private $name;
 
+    private $table = "document_tb";
+
     // constructor
     public function __construct()
     {
@@ -38,7 +40,7 @@ class Document extends Database
     // upload
     public function upload()
     {
-        $query = "INSERT INTO document_tb (`name`) VALUES (:name)";
+        $query = "INSERT INTO $this->table (`name`) VALUES (:name)";
 
         $stmt = $this->connect()->prepare($query);
 
@@ -53,7 +55,7 @@ class Document extends Database
     public function delete($id)
     {
         // get filename
-        $query = "SELECT name FROM document_tb WHERE `id` = :id";
+        $query = "SELECT name FROM $this->table WHERE `id` = :id";
         $stmt = $this->connect()->prepare($query);
 
         try {
@@ -67,7 +69,7 @@ class Document extends Database
         }
 
         // delete from databse
-        $query = "DELETE FROM document_tb WHERE `id` = :id";
+        $query = "DELETE FROM $this->table WHERE `id` = :id";
 
         $stmt = $this->connect()->prepare($query);
 
@@ -82,7 +84,7 @@ class Document extends Database
     // fetch
     public function fetch($id)
     {
-        $query = "SELECT * FROM document_tb WHERE $id = :id";
+        $query = "SELECT * FROM $this->table WHERE $id = :id";
 
         $stmt = $this->connect()->prepare($query);
 
@@ -102,7 +104,7 @@ class Document extends Database
     {
         $documents = [];
 
-        $query = "SELECT * FROM document_tb";
+        $query = "SELECT * FROM $this->table";
 
         $stmt = $this->connect()->prepare($query);
 

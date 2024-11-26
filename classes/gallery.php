@@ -7,6 +7,8 @@ class Gallery extends Database
     public $id;
     public $filename;
 
+    private $table = "image_tb";
+
     // constructor
     public function __construct()
     {
@@ -28,7 +30,7 @@ class Gallery extends Database
     // upload
     public function upload()
     {
-        $query = "INSERT INTO image_tb (`filename`) VALUES (:filename)";
+        $query = "INSERT INTO $this->table (`filename`) VALUES (:filename)";
 
         $stmt = $this->connect()->prepare($query);
 
@@ -45,7 +47,7 @@ class Gallery extends Database
     // download
     public function fetchAll()
     {
-        $query = "SELECT * FROM image_tb";
+        $query = "SELECT * FROM $this->table";
 
         $stmt = $this->connect()->prepare($query);
 
@@ -64,7 +66,7 @@ class Gallery extends Database
         $status = false;
 
         // getting filename :: purpose -> delete file
-        $query = "SELECT `filename` FROM image_tb WHERE `id` = :id";
+        $query = "SELECT `filename` FROM $this->table WHERE `id` = :id";
         $stmt = $this->connect()->prepare($query);
         $stmt->bindParam(":id", $id);
 
@@ -74,7 +76,7 @@ class Gallery extends Database
         }
 
         if($filename != "") {
-            $query = "DELETE FROM image_tb WHERE `id` = :id";
+            $query = "DELETE FROM $this->table WHERE `id` = :id";
             $stmt = $this->connect()->prepare($query);
             $stmt->bindParam(":id", $id);
             

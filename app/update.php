@@ -1,18 +1,27 @@
 <?php
 
-$id = $_POST['id'] ?? 0;
+require_once __DIR__ . '/../functions/generate_csrf_token.php';
 
 $response = false;
 
-if ($id != 0) {
-    require_once __DIR__ . '/../classes/person.php';
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    if (isset($_POST['token'])) {
+        if ($_POST['token'] == generateCsrfToken()) {
+            // update
+            require_once __DIR__ . '/../classes/person.php';
 
-    $personObj = new Person();
+            $personObj = new Person();
 
-    $personObj->set($id, $_POST['name'], $_POST['gender'], $_POST['date-of-birth'], $_POST['height'], $_POST['is-frank'], $_POST['mobile-brand'], $_POST['description']);
+            $personObj->set($_POST['id'], $_POST['name'], $_POST['gender'], $_POST['date-of-birth'], $_POST['height'], $_POST['is-frank'], $_POST['mobile-brand'], $_POST['description']);
 
-    if ($personObj->isValid()) {
-        $response = $personObj->update($id);
+            if ($personObj->isValid()) {
+                $response = $personObj->update($_POST['id']);
+            }
+        } else {
+            $response = "An error occurred!";
+        }
+    } else {
+        $response = "An error occurred!";
     }
 }
 
