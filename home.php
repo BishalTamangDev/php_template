@@ -20,6 +20,7 @@ if (session_status() == PHP_SESSION_NONE)
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
     <link rel="stylesheet" href="/php_template/css/style.css">
+    <link rel="stylesheet" href="/php_template/css/loaders/loaders.css">
 </head>
 
 <body>
@@ -28,6 +29,8 @@ if (session_status() == PHP_SESSION_NONE)
 
     <main class="main container">
         <h3 class="mb-4 fw-bold text-secondary"> ALL PERSONS </h3>
+
+
         <div class="table-container">
             <table class="table person-table border">
                 <thead>
@@ -68,7 +71,12 @@ if (session_status() == PHP_SESSION_NONE)
                     </tr>
 
                     <tr>
-                        <td colspan="6" class="text-secondary small"> Loading data...</td>
+                        <td colspan="6">
+                            <div class="d-flex flex-row align-items-center gap-2">
+                                <div class="loader"></div>
+                                <p class="m-0"> Fetching data... </p>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -158,8 +166,11 @@ if (session_status() == PHP_SESSION_NONE)
             xhr.send();
         }
 
-        // fetchAllDataMethod1();
-        fetchAllDataMethod2();
+        setTimeout(function() {
+            // fetchAllDataMethod1();
+            fetchAllDataMethod2();
+        }, 1000);
+
 
         // delete data
         function setOperation() {
